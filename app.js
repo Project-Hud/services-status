@@ -6,6 +6,7 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
+  , request = require('request')
   , app = express()
 
 // all environments
@@ -26,7 +27,11 @@ if ('development' === app.get('env')) {
 }
 
 app.get('/', function (req, res) {
-  res.render('index', { title: 'Express' })
+  res.render('index')
+})
+
+app.get('/status/github', function (req, res) {
+  req.pipe(request('https://status.github.com/api/status.json')).pipe(res)
 })
 
 http.createServer(app).listen(app.get('port'), function(){

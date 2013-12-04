@@ -1,4 +1,4 @@
-widget-template
+services-status
 ===============
 
-Tiny default express application to be used as a base for HUD widgets
+See the status of essential services. Only github currently
