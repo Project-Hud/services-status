@@ -30,9 +30,6 @@
   })
 
   function showStats() {
-    console.log(okServices)
-    console.log(services)
-    console.log(statuses.length)
     var $okServices = document.getElementsByClassName('js-ok-services')
       , $totalServices = document.getElementsByClassName('js-total-services')
 
