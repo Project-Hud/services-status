@@ -5,7 +5,6 @@
     , $iconDanger = document.getElementsByClassName('js-danger')
     , $iconLoading = document.getElementsByClassName('js-loading')
     , $okServices = document.getElementsByClassName('js-ok-services')
-    , $totalServices = document.getElementsByClassName('js-total-services')
     , $moduleBody = document.getElementsByClassName('module__body')[0]
 
   var statuses = Object.keys(JSON.parse($moduleBody.getAttribute('data-services')))
@@ -30,16 +29,16 @@
   function checkStatus(status) {
     var request = new XMLHttpRequest()
     request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        if (request.status === 200) {
-          okServices++
-          $okServices[0].innerHTML = okServices
-        }
-        services++
-        if(services === statuses.length) {
-          showStats()
-        }
+      if (request.readyState !== 4) return
+
+      if (request.status === 200) {
+        okServices++
+        $okServices[0].innerHTML = okServices
       }
+
+      services++
+
+      if(services === statuses.length) showStats()
     }
 
     request.open('GET', '/status/' + status, true)
@@ -49,7 +48,6 @@
   function showStats() {
 
     $okServices[0].innerHTML = okServices
-    $totalServices[0].innerHTML = services
 
     $iconLoading[0].style.display = 'none'
     if(okServices === services) {
