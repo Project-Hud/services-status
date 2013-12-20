@@ -4,6 +4,8 @@
     , $iconSuccess = document.getElementsByClassName('js-success')
     , $iconDanger = document.getElementsByClassName('js-danger')
     , $iconLoading = document.getElementsByClassName('js-loading')
+    , $okServices = document.getElementsByClassName('js-ok-services')
+    , $totalServices = document.getElementsByClassName('js-total-services')
 
   var statuses = Object.keys(JSON.parse(document.getElementsByClassName('module__body')[0].getAttribute('data-services')))
 
@@ -15,6 +17,7 @@
 
   setInterval(function () {
     services = okServices = 0
+    $okServices[0].innerHTML = okServices
     $iconSuccess[0].style.display = 'none'
     $iconDanger[0].style.display = 'none'
 
@@ -29,6 +32,7 @@
       if (request.readyState === 4) {
         if (request.status === 200) {
           okServices++
+          $okServices[0].innerHTML = okServices
         }
         services++
         if(services === statuses.length) {
@@ -42,8 +46,6 @@
   }
 
   function showStats() {
-    var $okServices = document.getElementsByClassName('js-ok-services')
-      , $totalServices = document.getElementsByClassName('js-total-services')
 
     $okServices[0].innerHTML = okServices
     $totalServices[0].innerHTML = services
