@@ -5,13 +5,25 @@
     , $iconDanger = document.getElementsByClassName('js-danger')
     , $iconLoading = document.getElementsByClassName('js-loading')
 
-  var statuses = ['github']
+  var statuses = Object.keys(JSON.parse(document.getElementsByClassName('module__body')[0].getAttribute('data-services')))
 
   $iconSuccess[0].style.display = 'none'
   $iconDanger[0].style.display = 'none'
 
   window.statuses = statuses
-  Array.prototype.forEach.call(statuses, function (status) {
+  Array.prototype.forEach.call(statuses, checkStatus)
+
+  setInterval(function () {
+    services = okServices = 0
+    $iconSuccess[0].style.display = 'none'
+    $iconDanger[0].style.display = 'none'
+
+    $iconLoading[0].style.display = 'block'
+
+    Array.prototype.forEach.call(statuses, checkStatus)
+  }, 30000)
+
+  function checkStatus(status) {
     var request = new XMLHttpRequest()
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
@@ -27,7 +39,7 @@
 
     request.open('GET', '/status/' + status, true)
     request.send()
-  })
+  }
 
   function showStats() {
     var $okServices = document.getElementsByClassName('js-ok-services')
