@@ -29,7 +29,11 @@ if ('development' === app.get('env')) {
 }
 
 app.get('/', function (req, res) {
-  res.render('index', { services: process.env.SERVICES, serviceCount: Object.keys(services).length })
+  res.render('index',
+    { services: process.env.SERVICES
+    , serviceCount: Object.keys(services).length
+    , timer: process.env.TIMER || 30000
+    })
 })
 
 app.get('/status/:serviceName', function (req, res) {

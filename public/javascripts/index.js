@@ -6,8 +6,9 @@
     , $iconLoading = document.getElementsByClassName('js-loading')
     , $okServices = document.getElementsByClassName('js-ok-services')
     , $totalServices = document.getElementsByClassName('js-total-services')
+    , $moduleBody = document.getElementsByClassName('module__body')[0]
 
-  var statuses = Object.keys(JSON.parse(document.getElementsByClassName('module__body')[0].getAttribute('data-services')))
+  var statuses = Object.keys(JSON.parse($moduleBody.getAttribute('data-services')))
 
   $iconSuccess[0].style.display = 'none'
   $iconDanger[0].style.display = 'none'
@@ -24,7 +25,7 @@
     $iconLoading[0].style.display = 'block'
 
     Array.prototype.forEach.call(statuses, checkStatus)
-  }, 30000)
+  }, $moduleBody.getAttribute('data-timer'))
 
   function checkStatus(status) {
     var request = new XMLHttpRequest()
