@@ -41,7 +41,15 @@ app.get('/status/:serviceName', function (req, res) {
 
   if (!services[serviceName]) return res.send(404)
 
-  req.pipe(request(services[serviceName])).pipe(res)
+  request(
+    { url: services[serviceName]
+    , timeout: 20000 // 20 Seconds
+    }, function (error, response) {
+      if (error || response.statusCode !== 200) return res.send(503)
+
+      return res.send(200)
+    })
+
 })
 
 /*app.get('/status/github', function (req, res) {
