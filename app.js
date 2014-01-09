@@ -8,6 +8,7 @@ var express = require('express')
   , path = require('path')
   , request = require('request')
   , app = express()
+  , cache = {}
 
 // all environments
 app.set('port', process.env.PORT || 3000)
@@ -41,20 +42,31 @@ app.get('/status/:serviceName', function (req, res) {
 
   if (!services[serviceName]) return res.send(404)
 
+  var cached = cache[serviceName]
+    , now = new Date().getTime()
+
+  if (cached) {
+    var difference = now - cached.lastChecked
+
+    if (difference < 5000) return res.send(cached.resCode)
+  }
+
   request(
     { url: services[serviceName]
     , timeout: 20000 // 20 Seconds
     }, function (error, response) {
-      if (error || response.statusCode !== 200) return res.send(503)
+      var resCode = 200
+      if (error || response.statusCode !== 200) resCode = 500
 
-      return res.send(200)
+      cache[serviceName] =
+        { lastChecked: new Date().getTime()
+        , resCode: resCode
+        }
+
+      return res.send(resCode)
     })
 
 })
-
-/*app.get('/status/github', function (req, res) {
-  req.pipe(request('https://status.github.com/api/status.json')).pipe(res)
-})*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'))
