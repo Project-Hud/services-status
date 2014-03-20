@@ -9,6 +9,6 @@
     "express": "3.4.6",
     "jade": "~1.1.5",
     "request": "~2.27.0",
-    "hud-widget": "0.0.5"
+    "hud-widget": "0.0.7"
   }
 }
