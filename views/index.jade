@@ -1,24 +1,27 @@
 extends layout
 
 block content
-  .module__body(data-services=services, data-timer=timer)
-    .service.js-service(data-service='github')
-      .js-status
-        p github
-      include loading
-    .service.js-service(data-service='npm-registry')
-      .js-status
-        p npm registry
-      include loading
-    .service.js-service(data-service='npm-www')
-      .js-status
-        p npm www
-      include loading
-    .service.js-service(data-service='pivotaltracker')
-      .js-status
-        p pivotal tracker
-      include loading
-    .service.js-service(data-service='clocknpm')
-      .js-status
-        p Clock npm
-      include loading
+   .module__body(data-services=services, data-timer=timer)
+    .block-container
+      .block-container__block.js-service(data-service='github')
+        .js-status
+          img(src='images/github-icon.png')
+        include loading
+
+      .block-container__block.js-service(data-service='pivotaltracker')
+        .js-status
+          img(src='images/pivotal-icon.png')
+        include loading
+
+      .block-container__block.js-service(data-service='npm-registry')
+        .js-status
+          img(src='images/npm-private-icon.png')
+        include loading
+
+      .block-container__block.js-service(data-service='clocknpm')
+        .js-status
+          img(src='images/npm-public-icon.png')
+        include loading
+
+  script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
+  script(src='/javascripts/index.js')
