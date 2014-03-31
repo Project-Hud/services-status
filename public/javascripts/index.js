@@ -1,59 +1,42 @@
-(function () {
-  var services = 0
-    , okServices = 0
-    , $iconSuccess = document.getElementsByClassName('js-success')
-    , $iconDanger = document.getElementsByClassName('js-danger')
-    , $iconLoading = document.getElementsByClassName('js-loading')
-    , $okServices = document.getElementsByClassName('js-ok-services')
-    , $moduleBody = document.getElementsByClassName('module__body')[0]
+$(document).ready(function () {
+  var $moduleBody = $('.module__body')
+    , statuses = Object.keys(JSON.parse($moduleBody.attr('data-services')))
+    , successClass = 'success'
+    , failureClass = 'danger'
+    , timeout = $moduleBody.attr('data-timer')
 
-  var statuses = Object.keys(JSON.parse($moduleBody.getAttribute('data-services')))
-
-  $iconSuccess[0].style.display = 'none'
-  $iconDanger[0].style.display = 'none'
-
-  window.statuses = statuses
-  Array.prototype.forEach.call(statuses, checkStatus)
+  $.each(statuses, checkStatus)
 
   setInterval(function () {
-    services = okServices = 0
-    $okServices[0].innerHTML = okServices
-    $iconSuccess[0].style.display = 'none'
-    $iconDanger[0].style.display = 'none'
+    $.each(statuses, checkStatus)
+  }, timeout)
 
-    $iconLoading[0].style.display = 'block'
+  function toggleLoading($serviceEl, hide) {
+    var $status = $serviceEl.find('.js-status')
+      , $loading = $serviceEl.find('.js-loading')
 
-    Array.prototype.forEach.call(statuses, checkStatus)
-  }, $moduleBody.getAttribute('data-timer'))
-
-  function checkStatus(status) {
-    var request = new XMLHttpRequest()
-    request.onreadystatechange = function () {
-      if (request.readyState !== 4) return
-
-      if (request.status === 200) {
-        okServices++
-        $okServices[0].innerHTML = okServices
-      }
-
-      services++
-
-      if(services === statuses.length) showStats()
-    }
-
-    request.open('GET', '/status/' + status, true)
-    request.send()
-  }
-
-  function showStats() {
-
-    $okServices[0].innerHTML = okServices
-
-    $iconLoading[0].style.display = 'none'
-    if(okServices === services) {
-      $iconSuccess[0].style.display = 'block'
+    if (hide) {
+      $loading.hide()
+      $status.show()
     } else {
-      $iconDanger[0].style.display = 'block'
+      $status.hide()
+      $loading.show()
     }
   }
-})()
+
+  function checkStatus(i, status) {
+    var $serviceEl = $('.js-service[data-service=' + status + ']')
+    toggleLoading($serviceEl, false)
+    $.ajax(
+      { url: '/status/' + status
+      , success: function () {
+          toggleLoading($serviceEl, true)
+          $serviceEl.removeClass(failureClass).addClass(successClass)
+        }
+      , error: function () {
+          toggleLoading($serviceEl, true)
+          $serviceEl.removeClass(successClass).addClass(failureClass)
+        }
+      })
+  }
+})

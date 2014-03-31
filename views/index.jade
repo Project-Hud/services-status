@@ -1,47 +1,27 @@
 extends layout
 
 block content
-  .module.module--status.module--service-status
-    .module__body(data-services=services, data-timer=timer)
+   .module__body(data-services=services, data-timer=timer)
+    .block-container
+      .block-container__block.js-service(data-service='github')
+        .js-status
+          img(src='images/github-icon.png')
+        include loading
 
-      .icon.icon--status.icon--large.js-loading
-        svg(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', width='100px', height='100px', viewbox='0 0 100 100', style='enable-background: new 0 0 100 100;', xml:space='preserve')
-          g
-            defs
-              clipPath(id='clip')
-                path(d='M 50 50 L 35 0 L 65 0 z')
-              ellipse(id= 'MyEllipse', clip-path='url(#clip)', cx='50', cy='50', rx='40', ry='40', style='fill:none; stroke:#fff', stroke-width='10')
+      .block-container__block.js-service(data-service='pivotaltracker')
+        .js-status
+          img(src='images/pivotal-icon.png')
+        include loading
 
-            use( xlink:href='#MyEllipse')
-            use( xlink:href='#MyEllipse', transform='rotate(40 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(80 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(120 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(160 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(200 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(240 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(280 50 50)')
-            use( xlink:href='#MyEllipse', transform='rotate(320 50 50)')
+      .block-container__block.js-service(data-service='npm-registry')
+        .js-status
+          img(src='images/npm-private-icon.png')
+        include loading
 
-            ellipse( clip-path='url(#clip)', cx='50', cy='50', rx='40', ry='40', style='fill:none; stroke:black', stroke-width='12')
-              animateTransform( attributeName='transform', attributeType='XML', type='rotate', values='0 50 50; 40 50 50; 80 50 50; 120 50 50; 160 50 50; 200 50 50; 240 50 50; 280 50 50; 320 50 50; 360 50 50', dur='1s', repeatCount='indefinite', additive='replace', calcMode='discrete', fill='freeze')
+      .block-container__block.js-service(data-service='clocknpm')
+        .js-status
+          img(src='images/npm-public-icon.png')
+        include loading
 
-
-      .icon.icon--success.icon--large.js-success
-        svg(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', width='445px', height='397px', viewbox='0 0 445 397', style='enable-background: new 0 0 445 397;', xml:space='preserve')
-          path(style='fill: none; stroke-width: 80; stroke-miterlimit: 10;', d='M27.495,222.246c0,0,57,50,97.098,103c0,0,144.41-183.505,292.902-293')
-      .icon.icon--danger.icon--large.js-danger
-        svg(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', width='445px', height='397px', viewbox='0 0 445 397', style='enable-background: new 0 0 445 397;', xml:space='preserve')
-          g
-            path(style='fill: none; stroke-width: 80; stroke-miterlimit: 10;', d='M73.669,347.98c0,0,144.41-183.505,292.902-293')
-            path(style='fill: none; stroke-width: 80; stroke-miterlimit: 10;', d='M366.249,349.129c0,0-143.386-184.308-291.266-294.629')
-      p
-        span.line-1
-          strong
-            span.js-ok-services 0
-            |  / 
-            span.js-total-services #{serviceCount}
-        span.line-2 Services are ok
-
-  //- h1 Services Status
-  //- h4 Github: 
-  //-   span.status(data-service='github') Loading…
+  script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
+  script(src='/javascripts/index.js')
