@@ -12,16 +12,17 @@ $(document).ready(function () {
 
   function checkStatus(i, status) {
     var $serviceEl = $('.js-service[data-service=' + status + ']')
-      , $loading = $serviceEl.find('.js-loading').show()
+      , $loading = $serviceEl.find('.js-loading').fadeIn()
 
     $.ajax(
       { url: '/status/' + status
+      , timeout: 10000
       , success: function () {
-          $loading.hide()
+          $loading.fadeOut()
           $serviceEl.addClass(successClass)
         }
       , error: function () {
-          $loading.hide()
+          $loading.fadeOut()
           $serviceEl.removeClass(successClass)
         }
       })
